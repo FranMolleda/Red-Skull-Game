@@ -46,7 +46,7 @@ table {
 #start{
     width: 100vw;
     height: 100vh;
-    background-image: url(../Img/backgroundNight.jpg);
+    background-image: url(../img/backgroundNight.jpg);
     background-size: cover;
 }
 #sectionStart{
@@ -116,7 +116,7 @@ table {
 .night{
     width: 100vw;
     height: 100vh;
-    background-image: url(../Img/backgroundNight.jpg);
+    background-image: url(../img/backgroundNight.jpg);
     background-size: cover;
 }
 
