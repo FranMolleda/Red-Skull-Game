@@ -1,0 +1,162 @@
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+    line-height: 1;
+    font-size: 10px;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+#start{
+    width: 100vw;
+    height: 100vh;
+    background-image: url(../Img/backgroundNight.jpg);
+    background-size: cover;
+}
+#sectionStart{
+    flex-direction: column;
+    display: flex;
+    align-items: center;
+}
+#sectionStart h2{
+    font-size: 4rem;
+    display: flex;
+    font-family: monospace;
+    margin-top: 7rem;
+    margin-bottom: 5rem;
+    color:  rgba(108, 136, 12, 0.7);
+}
+
+
+.boxes {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    width: 100vw;
+    margin-bottom: 5rem;
+}
+
+#Play {
+    color:  rgba(108, 136, 12, 0.7);
+    background-color: rgb(108, 136, 12, 0);
+    display: flex;
+    padding: 1.5rem 5rem;
+    border-radius: 1.3rem;
+    font-size: 3rem;
+    text-align: center;
+    text-decoration: none;
+    font-family: monospace;
+    border:  rgba(108, 136, 12, 0.7) solid .1rem;
+    transition: 1s;
+}
+
+#Play:hover {
+    opacity: 1;
+    background-color: rgba(108, 136, 12, 0.411);
+    color: white;
+    border: white solid .1rem;
+}
+
+.boxes article {
+    width: 20vw;
+    height: 15rem;
+    text-align: center;
+    border: rgb(2, 2, 2) solid 0.1rem;
+    border-radius: 1rem;
+    background-color: rgba(107, 136, 12, 0.411);
+}
+
+.boxes img{
+    width: 6.5rem;
+    height: 6.5rem;
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+.boxes p{
+    font-size: 1.1rem;
+    font-family: monospace;
+}
+
+.night{
+    width: 100vw;
+    height: 100vh;
+    background-image: url(../Img/backgroundNight.jpg);
+    background-size: cover;
+}
+
+.gameOver {
+
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: center;
+}
+
+
+
+.gameOver img {
+    width: 80vw;
+    height: 30vh;
+    margin-top: 10rem;
+    margin-bottom: 5rem;
+}
+
+
+ .gameOver a{
+    color: black;
+    background-color: #BE3434;
+    display: flex;
+    padding: 1.5rem 2rem;
+    border-radius: 1.3rem;
+    font-size: 3rem;
+    text-align: center;
+    text-decoration: none;
+    font-family: monospace;
+    border: black solid .1rem;
+    margin-bottom: 12rem;
+    opacity: 0.4;
+    transition: 0.6s;
+ }
+
+
+
+.gameOver a:hover {
+    opacity: 1;
+    background-color: #BE3434;
+
+}
