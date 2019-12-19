@@ -182,7 +182,7 @@ const Game = {
     },
 
     generateEnemyMosquito: function () {
-        this.enemyMosquito.push(new Enemies(this.ctx, './img/bat-mosquitoSprite.png', 1500, Math.floor(Math.random(10 - 600) * 600) + 100, 70, 70, 8))
+        this.enemyMosquito.push(new Enemies(this.ctx, './img/bat-MosquitoSprite.png', 1500, Math.floor(Math.random(10 - 600) * 600) + 100, 70, 70, 8))
     },
 
     generateEnemyGhost: function () {
