@@ -68,6 +68,12 @@ const Game = {
                 this.nextLevel = 1
                 this.level++;
                 this.changeLevel()
+                if(this.level>3){
+                    clearInterval(this.interval)
+                    setTimeout(function () {
+                        window.location.href = "./well_done.html"
+                    }, 1000);
+                }
             }
         }, 1000 / this.fps)
     },
