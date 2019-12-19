@@ -68,7 +68,7 @@ const Game = {
                 this.nextLevel = 1
                 this.level++;
                 this.changeLevel()
-                if(this.level>3){
+                if (this.level > 3) {
                     clearInterval(this.interval)
                     setTimeout(function () {
                         window.location.href = "./well_done.html"
@@ -88,20 +88,20 @@ const Game = {
         if (this.level == 1) {
             this.background = new Background(this.ctx, "./img/cove.png", this.width, this.height, 3);
             this.backgroundCloud = new Background(this.ctx, "./img/backgroundCloud4.png", this.width, this.height, 4);
-            this.player = new Player(this.ctx, './img/playerSprite.png', 400, 300, 70, 70, this.playerKeys, 8)
+            this.player = new Player(this.ctx, './img/playerSprite.png', 400, 300, 70, 70, this.playerKeys, 8, 1)
 
         }
 
         if (this.level == 2) {
             this.background = new Background(this.ctx, "./img/cove-brown.jpg", this.width, this.height, 3);
-            this.player = new Player(this.ctx, './img/playerSprite.png', 400, 300, 70, 70, this.playerKeys, 8)
+            this.player = new Player(this.ctx, './img/playerSprite.png', 400, 300, 70, 70, this.playerKeys, 8, 2)
 
         }
 
         if (this.level == 3) {
             this.background = new Background(this.ctx, "./img/backgroundNight.jpg", this.width, this.height, 3);
             this.backgroundCloud = new Background(this.ctx, "./img/backgroundCloud3.png", this.width, this.height, 1);
-            this.player = new Player(this.ctx, './img/playerSprite.png', 100, 600, 70, 70, this.playerKeys, 8);
+            this.player = new Player(this.ctx, './img/playerSprite.png', 100, this.player.posYFloor, 70, 70, this.playerKeys, 8, 3);
 
         }
     },
@@ -216,91 +216,104 @@ const Game = {
     },
 
 
-    
-    
+
+
     isCollision: function () {
         // colisiones genéricas 
         //return (p.x + p.w > o.x && o.x + o.w > p.x && p.y + p.h > o.y && o.y + o.h > p.y)
-        
-        this.enemyGhost.forEach((obs, vIndex) => { 
+
+        this.enemyGhost.forEach((obs, vIndex) => {
             if (this.player.posX + this.player.width > obs.posX && obs.posX + obs.width > this.player.posX && this.player.posY + this.player.height > obs.posY && obs.posY > this.player.posY) {
                 this.enemyGhost.splice(vIndex, 1)
                 this.player.gravity *= -1
-                
+
             }
         })
-        
-        
-        if (this.enemyMosquito.some(obs => (this.player.posX + 35 > obs.posX && obs.posX + obs.width > this.player.posX && this.player.posY + this.player.height - 10 > obs.posY && obs.posY + +obs.height - 10 > this.player.posY)))
-        this.player = this.playerExplosion = new Player(this.ctx, './img/airExplosion.png', this.player.posX, this.player.posY, 70, 70, this.playerKeys, 6)
-        if (this.player.posX < 0)
-        this.player = this.playerExplosion = new Player(this.ctx, './img/airExplosion.png', this.player.posX, this.player.posY, 70, 70, this.playerKeys, 6)
-        if (this.player.posX > this.canvas.width - 67)
-        this.player = this.playerExplosion = new Player(this.ctx, './img/airExplosion.png', this.player.posX, this.player.posY, 70, 70, this.playerKeys, 6)
-        if (this.player.posY < 0)
-        this.player = this.playerExplosion = new Player(this.ctx, './img/airExplosion.png', this.player.posX, this.player.posY, 70, 70, this.playerKeys, 6)
-        if (this.player.posY > this.canvas.height - 67)
-        this.player = this.playerExplosion = new Player(this.ctx, './img/airExplosion.png', this.player.posX, this.player.posY, 70, 70, this.playerKeys, 6)
-        
-        
-        
-        if (this.enemyBombLeft.some(obs => (this.player.posX + 35 > obs.posX && obs.posX + obs.width > this.player.posX && this.player.posY + this.player.height - 10 > obs.posY && obs.posY + +obs.height - 10 > this.player.posY)))
-        this.player = this.playerExplosion = new Player(this.ctx, './img/groundExplotion.png', this.player.posX, this.player.posY, 70, 70, this.playerKeys, 5)
-        if (this.player.posX < 0)
-        this.player = this.playerExplosion = new Player(this.ctx, './img/groundExplotion.png', this.player.posX, this.player.posY, 70, 70, this.playerKeys, 5)
-        if (this.player.posX > this.canvas.width - 67)
-        this.player = this.playerExplosion = new Player(this.ctx, './img/groundExplotion.png', this.player.posX, this.player.posY, 70, 70, this.playerKeys, 5)
-        if (this.player.posY < 0)
-        this.player = this.playerExplosion = new Player(this.ctx, './img/groundExplotion.png', this.player.posX, this.player.posY, 70, 70, this.playerKeys, 5)
-        if (this.player.posY > this.canvas.height - 67)
-        this.player = this.playerExplosion = new Player(this.ctx, './img/groundExplotion.png', this.player.posX, this.player.posY, 70, 70, this.playerKeys, 5)
-        
-        
+
+        if (this.level === 1) {
+            if (this.enemyMosquito.some(obs => (this.player.posX + 35 > obs.posX && obs.posX + obs.width > this.player.posX && this.player.posY + this.player.height - 10 > obs.posY && obs.posY + +obs.height - 10 > this.player.posY)))
+                this.player = this.playerExplosion = new Player(this.ctx, './img/airExplosion.png', this.player.posX, this.player.posY, 70, 70, this.playerKeys, 6)
+            if (this.player.posX < 0)
+                this.player = this.playerExplosion = new Player(this.ctx, './img/airExplosion.png', this.player.posX, this.player.posY, 70, 70, this.playerKeys, 6)
+            if (this.player.posX > this.canvas.width - 67)
+                this.player = this.playerExplosion = new Player(this.ctx, './img/airExplosion.png', this.player.posX, this.player.posY, 70, 70, this.playerKeys, 6)
+            if (this.player.posY < 0)
+                this.player = this.playerExplosion = new Player(this.ctx, './img/airExplosion.png', this.player.posX, this.player.posY, 70, 70, this.playerKeys, 6)
+            if (this.player.posY > this.canvas.height - 67)
+                this.player = this.playerExplosion = new Player(this.ctx, './img/airExplosion.png', this.player.posX, this.player.posY, 70, 70, this.playerKeys, 6)
+
+
+        }
+        if (this.level === 2) {
+            if (this.player.posX < 0)
+                this.player = this.playerExplosion = new Player(this.ctx, './img/airExplosion.png', this.player.posX, this.player.posY, 70, 70, this.playerKeys, 6)
+            if (this.player.posX > this.canvas.width - 67)
+                this.player = this.playerExplosion = new Player(this.ctx, './img/airExplosion.png', this.player.posX, this.player.posY, 70, 70, this.playerKeys, 6)
+            if (this.player.posY < 0)
+                this.player = this.playerExplosion = new Player(this.ctx, './img/airExplosion.png', this.player.posX, this.player.posY, 70, 70, this.playerKeys, 6)
+            if (this.player.posY > this.canvas.height - 67)
+                this.player = this.playerExplosion = new Player(this.ctx, './img/airExplosion.png', this.player.posX, this.player.posY, 70, 70, this.playerKeys, 6)
+        }
+
+        if (this.level === 3) {
+            if (this.enemyBombLeft.some(obs => (this.player.posX + 35 > obs.posX && obs.posX + obs.width > this.player.posX && this.player.posY + this.player.height - 10 > obs.posY && obs.posY + +obs.height - 10 > this.player.posY)))
+                this.player = this.playerExplosion = new Player(this.ctx, './img/airExplosion.png', this.player.posX, this.player.posY, 70, 70, this.playerKeys, 6)
+            if (this.player.posX < 0)
+                this.player = this.playerExplosion = new Player(this.ctx, './img/groundExplotion.png', this.player.posX, this.player.posY, 70, 70, this.playerKeys, 5)
+            if (this.player.posX > this.canvas.width - 67)
+                this.player = this.playerExplosion = new Player(this.ctx, './img/groundExplotion.png', this.player.posX, this.player.posY, 70, 70, this.playerKeys, 5)
+            if (this.player.posY < 0)
+                this.player = this.playerExplosion = new Player(this.ctx, './img/airExplosion.png', this.player.posX, this.player.posY, 70, 70, this.playerKeys, 6)
+            if (this.player.posY > this.canvas.height - 80)
+                this.player = this.playerExplosion = new Player(this.ctx, './img/airExplosion.png', this.player.posX, this.player.posY, 70, 70, this.playerKeys, 6)
+
+        }
+
     },
-    
-    
+
+
     isCollisionPoints: function () {
         this.points.forEach((obs, vIndex) => { //bucle para recorrer las victimas
-            if (this.player.posX + this.player.width > obs.posX && obs.posX + obs.width > this.player.posX && this.player.posY + this.player.height > obs.posY && obs.posY > this.player.posY) {
+            if (this.player.posX + this.player.width/2 > obs.posX && obs.posX + obs.width > this.player.posX && this.player.posY + this.player.height > obs.posY && obs.posY > this.player.posY) {
                 this.points.splice(vIndex, 1)
                 this.score++
                 this.nextLevel--
             }
         })
     },
-    
-    
-    
-    
-    
+
+
+
+
+
     clearEnemyMosquito: function () {
         this.enemyMosquito = this.enemyMosquito.filter(enemyM => (enemyM.posX >= -100))
     },
-    
-    
+
+
     clearEnemyGhost: function () {
         if (this.enemyGhost.length > 2) {
             this.enemyGhost.shift()
         }
     },
-    
-    
+
+
     clearPoints: function () {
         this.points = this.points.filter(point => (point.posX >= -50))
-        if(this.level === 3 && this.points.length > 5) {
+        if (this.level === 3 && this.points.length > 5) {
             this.points.shift()
         }
 
     },
-    
-    
+
+
     clearEnemyBombLeft: function () {
         if (this.enemyBombLeft.length > 1) {
             this.enemyBombLeft.pop()
         }
-        
+
     },
-    
+
     gameOver: function () {
         clearInterval(this.interval)
         setTimeout(function () {

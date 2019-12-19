@@ -1,5 +1,5 @@
 class Player {
-    constructor(ctx, image, posX, posY, width, height, keys, frames) {
+    constructor(ctx, image, posX, posY, width, height, keys, frames, level) {
         this.ctx = ctx;
 
         this.image = new Image();
@@ -21,6 +21,7 @@ class Player {
         this.framesIndex = 0;
 
         this.keys = keys;
+        this.level = level
 
         this.setListeners();
 
@@ -46,29 +47,51 @@ class Player {
         
             this.posX += this.vX
             this.posY += this.vY
+
+            if(this.level === 3 && this.posY <= 570){
+                this.vY += 1
+            }
     
     }
 
-    setListeners() {
+    setListeners(level) {
         document.addEventListener('keydown', (e) => {
+            if(this.level === 1 || this.level === 2){
             switch (e.keyCode) {
-                case this.keys.kSpace:
-                    this.vY -= 4;
-                    break;
-                case this.keys.kUp:
-                    this.vY -= 2;
-                    break;
-                case this.keys.kDown:
-                    this.vY += 2;
-                    break;
-                case this.keys.kLeft:
-                    this.vX -= 2;
-                    break;
-                case this.keys.kRight:
-                    this.vX += 2;
-                    break;
+                    case this.keys.kSpace:
+                        this.vY -= 4;
+                        break;
+                    case this.keys.kUp:
+                        this.vY -= 2;
+                        break;
+                    case this.keys.kDown:
+                        this.vY += 2;
+                        break;
+                    case this.keys.kLeft:
+                        this.vX -= 2;
+                        break;
+                    case this.keys.kRight:
+                        this.vX += 2;
+                        break;
+                }
 
             }
+ 
+
+                if(this.level === 3){
+                    switch (e.keyCode) {
+                            case this.keys.kSpace:
+                                this.vY -= 3;
+                                break;
+                            case this.keys.kLeft:
+                                this.vX -= 2;
+                                break;
+                            case this.keys.kRight:
+                                this.vX += 2;
+                                break;
+                        }
+        
+                    }
         })
     }
 
