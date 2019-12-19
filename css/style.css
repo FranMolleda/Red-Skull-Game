@@ -129,7 +129,7 @@ table {
 
 
 
-.gameOver img {
+.over {
     width: 80vw;
     height: 30vh;
     margin-top: 10rem;
@@ -139,7 +139,7 @@ table {
 
  .gameOver a{
     color: black;
-    background-color: #BE3434;
+    background-color: #b00703;
     display: flex;
     padding: 1.5rem 2rem;
     border-radius: 1.3rem;
@@ -157,6 +157,13 @@ table {
 
 .gameOver a:hover {
     opacity: 1;
-    background-color: #BE3434;
+    background-color: #b00703;
 
+}
+
+.winner{
+    width: 60vw;
+    height: 50vh;
+    margin-top: 3rem;
+    margin-bottom: 7rem;
 }
