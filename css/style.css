@@ -145,6 +145,7 @@ table {
     border-radius: 1.3rem;
     font-size: 3rem;
     text-align: center;
+    font-weight: 700;
     text-decoration: none;
     font-family: monospace;
     border: black solid .1rem;
