@@ -49,7 +49,7 @@ class Player {
             this.posY += this.vY
 
             if(this.level === 3 && this.posY <= 570){
-                this.vY += 1
+                this.vY += 0.2
             }
     
     }
@@ -92,6 +92,7 @@ class Player {
                         }
         
                     }
+
         })
     }
 
