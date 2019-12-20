@@ -60,6 +60,8 @@ const Game = {
                 this.gameOver()
             }.bind(this), 1000)
             if (this.isCollision()) this.player = this.playerExplosion
+            if (this.isCollision()) this.enemyBombLeft = this.playerExplosion
+            if (this.isCollision()) this.enemyMosquito = this.playerExplosion
             if (this.isCollisionPoints()) this.score += 1
             if (this.isCollisionPoints()) this.nextLevel -= 1
             if (this.nextLevel <= 0) {
@@ -233,7 +235,9 @@ const Game = {
         if (this.level === 1) {
             if (this.enemyMosquito.some(obs => (this.player.posX + 35 > obs.posX && obs.posX + obs.width > this.player.posX && this.player.posY + this.player.height - 10 > obs.posY && obs.posY + +obs.height - 10 > this.player.posY)))
                 this.player = this.playerExplosion = new Player(this.ctx, './img/airExplosion.png', this.player.posX, this.player.posY, 70, 70, this.playerKeys, 6)
-            if (this.player.posX < 0)
+                //this.enemyMosquito = this.playerExplosion
+
+                if (this.player.posX < 0)
                 this.player = this.playerExplosion = new Player(this.ctx, './img/airExplosion.png', this.player.posX, this.player.posY, 70, 70, this.playerKeys, 6)
             if (this.player.posX > this.canvas.width - 67)
                 this.player = this.playerExplosion = new Player(this.ctx, './img/airExplosion.png', this.player.posX, this.player.posY, 70, 70, this.playerKeys, 6)
