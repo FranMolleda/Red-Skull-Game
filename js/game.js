@@ -100,7 +100,7 @@ const Game = {
 
         if (this.level == 3) {
             this.background = new Background(this.ctx, "./img/backgroundNight.jpg", this.width, this.height, 3);
-            this.backgroundCloud = new Background(this.ctx, "./img/backgroundCloud3.png", this.width, this.height, 1);
+            this.backgroundCloud = new Background(this.ctx, "./img/backgroundCloud3.png", this.width, this.height, 4);
             this.player = new Player(this.ctx, './img/playerSprite.png', 100, this.player.posYFloor, 70, 70, this.playerKeys, 8, 3);
 
         }
