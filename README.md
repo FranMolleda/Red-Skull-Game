@@ -1,19 +1,19 @@
-# Fly Monster
+# Red Skull Game
 
 
 
-# Fly Monster is a Game of my first project, IronHack Module one. 
+# Red Skull Game is the first project of IronHack, Module one. 
 
 
-You must catch all the mosquitoes (points), you can see how many do you need in scoreboard, to go next level. 
+The player has to eat mosquitoes and avoid screen limits. Look at scoreboard to know  how many points you need to reach next level.
 
-The keys to play are, arrow-keys and space 
+Play with arrows and space keys.
 
-Be carefull, there are some enemies trying you don´t catch them. 
+Be careful, some enemies want to kill you. 
 
-In first level, Bat Mosquito come to kill you.
-In second level, Ghosts change your gravity.
-In thrid level, Bombs are rebound trying to kill you.
+First level: Bat Mosquito comes to catch you.
+Second level: Ghosts change your gravity.
+Thrid level: Bombs are moving on the floor.
 
 
 # Project to practice First Module
@@ -69,26 +69,21 @@ Apache 2.0 license implementation makes sure that the user does not have to worr
 
 # Process:
 
-The first thing I did was to outline what game I wanted to develop. How many players, enemies, goal to achieve and way to finish.
+The first objective to develope this game was to think about the main structure and basic components (players, enemies, goal to achieve and way to finish)
+After analyzing how to spread out previous learnings I decided to divide the game into levels in order to implementing them. 
+Then I created a file structure and a common rules in the properties of each element to ensure a clean code to work easy with. 
 
-Then, I analyzed how to be able put into practice what I learned previously and dividing the game into levels, to be able to put it into practice.
+I have had some difficulties:
 
-Having the above clear, I made a file structure that I was going to need to be able to have a code that was as clean and easy to handle when the setbacks came.
-
-I decided to have a basic structure, following the same order in the properties of each element,in this way it helps a better understanding, both for me, and for anyone else who sees it.
-
-I have had some difficulties, among the most notable are:
-
-The logic to make movements of the elements.
-Link different HTML files depending on what happens in the game.
-Change levels and the behavior of the elements depending on the level.
-With the scope at certain times.
-With the handling of Git.
+How to apply the logic to make the element´s movements.
+How to link different HTML files depending on what happens in the game.
+How to change level and the behavior of elements depending on the level.
+With the scope.
+With Git`s branches.
 
 Acknowledgments: 
 
-First of all, I would like to thank the TA's (especially Alejandro, who made him leave the account later and managed to remain calm before my disastrous branches, incomprehensible mistakes, pulls and meaningless pushes) for Your patience, advice and clarification.
-Also to my colleagues for their help and willingness.
+First of all, I would like to thank the TA's team for their patience and good advices. Also to my colleagues for their help and willingness.
 
 
 

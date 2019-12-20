@@ -43,34 +43,85 @@ table {
 	border-spacing: 0;
 }
 
-#start{
+#start {
     width: 100vw;
-    height: 100vh;
     background-image: url(../img/backgroundNight.jpg);
+    display: flex;
+    justify-content: space-around;
+    height: -webkit-fill-available;
     background-size: cover;
 }
-#sectionStart{
+
+
+#sectionStart {
     flex-direction: column;
+    justify-content: space-around;
     display: flex;
     align-items: center;
+    margin-top: 2rem;
+    width: -webkit-fill-available;
 }
-#sectionStart h2{
-    font-size: 4rem;
-    display: flex;
-    font-family: monospace;
-    margin-top: 7rem;
-    margin-bottom: 5rem;
-    color:  rgba(108, 136, 12, 0.7);
-}
+
 
 
 .boxes {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-evenly;
-    width: 100vw;
-    margin-bottom: 5rem;
+
+   display: flex;
+   flex-direction: row;
+   justify-content: space-evenly;
+   width: 90vw;
+   text-align: center;
 }
+       .boxes article {
+           width: 20vw;
+           text-align: center;
+           border: rgb(2, 2, 2) solid 0.1rem;
+           border-radius: 1rem;
+           background-color: rgba(107, 136, 12, 0.411);
+           display: flex;
+           flex-direction: column;
+           align-items: center;
+           justify-content: center;
+       }
+
+ @media (max-width: 760px) {
+    .boxes {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        align-items: center;
+        width: 90vw;
+        flex-flow: wrap;
+    }
+
+    .boxes article {
+        width: 50vw;
+        text-align: center;
+        border: rgb(2, 2, 2) solid 0.1rem;
+        border-radius: 1rem;
+        background-color: rgba(107, 136, 12, 0.411);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    #Play {
+        color: rgba(108, 136, 12, 0.7);
+        background-color: rgb(108, 136, 12, 0);
+        display: flex;
+        padding: 1.5rem 5rem;
+        border-radius: 1.3rem;
+        font-size: 3rem;
+        text-align: center;
+        text-decoration: none;
+        font-family: monospace;
+        border: rgba(108, 136, 12, 0.7) solid .1rem;
+        transition: 1s;
+        width: 5rem;
+    }
+}
+
 
 #Play {
     color:  rgba(108, 136, 12, 0.7);
@@ -93,24 +144,25 @@ table {
     border: white solid .1rem;
 }
 
-.boxes article {
-    width: 20vw;
-    height: 15rem;
-    text-align: center;
-    border: rgb(2, 2, 2) solid 0.1rem;
-    border-radius: 1rem;
-    background-color: rgba(107, 136, 12, 0.411);
+
+.boxes h4{
+    font-size: 1.4rem;
+    font-family: monospace;
+    font-weight: 700;
+    margin-top: 1rem;
+    display: flex;
 }
 
 .boxes img{
-    width: 6.5rem;
-    height: 6.5rem;
+    width: 6rem;
+    height: 6rem;
     margin-top: 1.5rem;
-    margin-bottom: 1.5rem;
+    margin-bottom: 1rem;
 }
 .boxes p{
     font-size: 1.1rem;
     font-family: monospace;
+    padding: 1rem;
 }
 
 .night{
@@ -145,6 +197,7 @@ table {
     border-radius: 1.3rem;
     font-size: 3rem;
     text-align: center;
+    font-weight: 700;
     text-decoration: none;
     font-family: monospace;
     border: black solid .1rem;

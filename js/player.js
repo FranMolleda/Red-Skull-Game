@@ -1,5 +1,5 @@
 class Player {
-    constructor(ctx, image, posX, posY, width, height, keys, frames) {
+    constructor(ctx, image, posX, posY, width, height, keys, frames, level) {
         this.ctx = ctx;
 
         this.image = new Image();
@@ -21,6 +21,7 @@ class Player {
         this.framesIndex = 0;
 
         this.keys = keys;
+        this.level = level
 
         this.setListeners();
 
@@ -43,38 +44,66 @@ class Player {
     }
 
     move() {
-        
-            this.posX += this.vX
-            this.posY += this.vY
-    
+
+        this.posX += this.vX
+        this.posY += this.vY
+
+        if (this.level === 3 && this.posY <= 570) {
+            this.vY += 0.2
+        }
+
     }
 
-    setListeners() {
+    setListeners(level) {
         document.addEventListener('keydown', (e) => {
-            switch (e.keyCode) {
-                case this.keys.kSpace:
-                    this.vY -= 4;
-                    break;
-                case this.keys.kUp:
-                    this.vY -= 2;
-                    break;
-                case this.keys.kDown:
-                    this.vY += 2;
-                    break;
-                case this.keys.kLeft:
-                    this.vX -= 2;
-                    break;
-                case this.keys.kRight:
-                    this.vX += 2;
-                    break;
+            if (this.level === 1 || this.level === 2) {
+                switch (e.keyCode) {
+                    case this.keys.kSpace:
+                        this.vY -= 4;
+                        break;
+                    case this.keys.kUp:
+                        this.vY -= 2;
+                        break;
+                    case this.keys.kDown:
+                        this.vY += 2;
+                        break;
+                    case this.keys.kLeft:
+                        this.image.src = './img/playerSpriteLeft.png'
+                        this.vX -= 2;
+                        break;
+                    case this.keys.kRight:
+                        this.image.src = './img/playerSprite.png'
+                        this.vX += 2;
+
+                        break;
+                }
 
             }
+
+
+            if (this.level === 3) {
+                switch (e.keyCode) {
+                    case this.keys.kSpace:
+                        this.vY -= 3;
+                        break;
+                    case this.keys.kLeft:
+                        this.image.src = './img/playerSpriteLeft.png'
+                        this.vX -= 2;
+                        break;
+                    case this.keys.kRight:
+                        this.image.src = './img/playerSprite.png'
+                        this.vX += 2;
+                        break;
+                }
+
+            }
+
         })
     }
 
     animate(framesCounter) {
         if (framesCounter % 10 === 0) {
-            if (this.framesIndex >= this.frames -1 ) this.framesIndex = 0;
+            if (this.framesIndex >= this.frames - 1) this.framesIndex = 0;
             this.framesIndex++;
         }
     }
