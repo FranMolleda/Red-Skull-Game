@@ -1,6 +1,6 @@
 # Red Skull Game
 
-https://FranMolleda.github.io/game-pt/ 👹🕹
+https://FranMolleda.github.io/Red-Skull-Game/ 👹🕹
 
 ![Init Img](img/readmeInit.png?raw=true)
 
@@ -9,9 +9,13 @@ https://FranMolleda.github.io/game-pt/ 👹🕹
 
 The player has to eat mosquitoes and avoid screen limits. Look at scoreboard to know  how many points you need to reach next level.
 
+![Red Skull Img](img/06_red_skull.gif?raw=true) ![Points Img](img/05_mosquito.gif?raw=true)
+
 Play with arrows and space keys.
 
 Be careful, some enemies want to kill you. 
+
+![Bat Mosquito Img](img/07_bat_mosquito.gif?raw=true) ![Ghost Img](img/02_ghost.gif?raw=true) ![Bomb Img](img/03_bomb.gif?raw=true)
 
 First level: Bat Mosquito comes to catch you.
 Second level: Ghosts change your gravity.
