@@ -30,6 +30,10 @@ const Game = {
     
     start: function () {
         this.reset()
+        this.explosionSound = new Sound('sounds/explosion.wav')
+        this.levelOneSound = new Sound('sounds/level-one.wav')
+        this.levelTwoSound = new Sound('sounds/level-two.mp3')
+        this.levelThreeSound = new Sound('sounds/level-three.mp3')
         this.interval = setInterval(() => {
             this.framesCounter++;
             
@@ -44,19 +48,25 @@ const Game = {
             
             if (this.framesCounter > 2000) this.framesCounter = 0;
             if (this.level === 1) {
+                this.levelOneSound.play()
                 if (this.framesCounter % 100 === 0) this.generateEnemyMosquito()
                 if (this.framesCounter % 50 === 0) this.generatePoints()
             }
             
             if (this.level === 2) {
-                if (this.framesCounter % 350 === 0) this.generateEnemyGhost()
+                this.levelOneSound.pause()
+                this.levelTwoSound.play()
+                if (this.framesCounter % 550 === 0) this.generateEnemyGhost()
                 if (this.framesCounter % 50 === 0) this.generatePoints()
             }
             if (this.level === 3) {
+                this.levelTwoSound.pause()
+                this.levelThreeSound.play()
                 if (this.framesCounter % 150 === 0) this.generateEnemyBombLeft()
                 if (this.framesCounter % 100 === 0) this.generatePoints()
             }
-            if (this.player === this.playerExplosion) setTimeout(function () {
+                if (this.player === this.playerExplosion) this.explosionSound.play()
+                if (this.player === this.playerExplosion) setTimeout(function () {
                 this.gameOver()
             }.bind(this), 1000)
             if (this.isCollision()) this.player = this.playerExplosion
@@ -65,8 +75,8 @@ const Game = {
             if (this.isCollisionPoints()) this.nextLevel -= 1
             if (this.isCollisionPoints()) this.score += 1
             if (this.nextLevel <= 0) {
-                this.levelSound = new Sound('sounds/next-level.wav')
-                this.levelSound.play()
+                this.congratulationsSound = new Sound('sounds/congratulations.wav')
+                this.congratulationsSound.play()
                 this.nextLevel = 1
                 this.level++;
                 this.changeLevel()
@@ -95,7 +105,6 @@ const Game = {
             this.background = new Background(this.ctx, "./img/cove.png", this.width, this.height, 3);
             this.backgroundCloud = new Background(this.ctx, "./img/backgroundCloud4.png", this.width, this.height, 4);
             this.player = new Player(this.ctx, './img/playerSprite.png', 400, 300, 70, 70, this.playerKeys, 8, 1)
-
         }
 
         if (this.level == 2) {
@@ -302,8 +311,8 @@ const Game = {
 
 
     clearEnemyGhost: function () {
-        if (this.enemyGhost.length > 3) {
-            this.enemyGhost.shift()
+        if (this.enemyGhost.length > 4) {
+            this.enemyGhost.pop()
         }
     },
 
@@ -325,10 +334,11 @@ const Game = {
     },
 
     gameOver: function () {
+        this.levelThreeSound.pause()
         clearInterval(this.interval)
         setTimeout(function () {
             window.location.href = "./game_over.html"
-        }, 2500);
+        }, 1000);
 
     },
 
