@@ -1,6 +1,6 @@
 # Red Skull Game
 
-https://FranMolleda.github.io/game-pt/ 👹🕹
+https://FranMolleda.github.io/Red-Skull-Game/ 👹🕹
 
 ![Init Img](img/readmeInit.png?raw=true)
 
