@@ -1,6 +1,8 @@
 # Red Skull Game
 
+https://FranMolleda.github.io/game-pt/ 👹🕹
 
+![Init Img](img/readmeInit.png?raw=true)
 
 # Red Skull Game is the first project of IronHack, Module one. 
 

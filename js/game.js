@@ -14,7 +14,7 @@ const Game = {
     },
     level: 1,
     score: 0,
-    nextLevel: 1,
+    nextLevel: 2,
 
 
     init: function () {
@@ -62,8 +62,9 @@ const Game = {
             if (this.isCollision()) this.player = this.playerExplosion
             if (this.isCollision()) this.enemyBombLeft = this.playerExplosion
             if (this.isCollision()) this.enemyMosquito = this.playerExplosion
-            if (this.isCollisionPoints()) this.score += 1
+            if (this.isCollisionPoints()) this.sound.play();
             if (this.isCollisionPoints()) this.nextLevel -= 1
+            if (this.isCollisionPoints()) this.score += 1
             if (this.nextLevel <= 0) {
                 this.nextLevel = 1
                 this.level++;
@@ -77,6 +78,8 @@ const Game = {
             }
         }, 1000 / this.fps)
     },
+
+
     
     
     changeLevel: function () {
@@ -102,7 +105,7 @@ const Game = {
         if (this.level == 3) {
             this.background = new Background(this.ctx, "./img/backgroundNight2.jpg", this.width, this.height, 3);
             this.backgroundCloud = new Background(this.ctx, "./img/backgroundCloud3.png", this.width, this.height, 4);
-            this.player = new Player(this.ctx, './img/playerSprite.png', this.width/2, this.player.posYFloor -400, 70, 70, this.playerKeys, 8, 3);
+            this.player = new Player(this.ctx, './img/playerSprite.png', this.width/2, this.player.posYMax , 70, 70, this.playerKeys, 8, 3);
 
         }
     },
@@ -284,6 +287,9 @@ const Game = {
                 this.points.splice(vIndex, 1)
                 this.score++
                 this.nextLevel--
+                this.sound = new Sound ('sounds/points.mp3')
+                this.sound.play()
+
             }
         })
     },
