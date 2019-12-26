@@ -4,6 +4,7 @@ class Points {
         this.image = new Image();
         this.image.src = image,
 
+
         this.posX = posX;
         this.posY = posY
         this.width = width;
@@ -13,6 +14,9 @@ class Points {
         this.vX = 5
         this.frames = 8;
         this.framesIndex = 0;
+
+       
+        
 
     }
 
@@ -41,7 +45,6 @@ class Points {
 
         if(level === 3){
             
-           // this.vX = 2
             this.posX -= this.vX 
             this.posY += this.vY
             

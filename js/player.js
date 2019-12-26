@@ -13,8 +13,8 @@ class Player {
         this.posXMax = this.width - 67
         this.posYMax = this.height - 67
 
-        this.vX = 0; //desplacamiento eje X
-        this.vY = 0; //desplacamiento eje Y
+        this.vX = 0; 
+        this.vY = 0; 
         this.gravity = 0.1;
 
         this.frames = frames;
