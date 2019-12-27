@@ -63,7 +63,7 @@ class Enemies {
         }
 
         if (level === 3) {
-
+        
             this.posX -= this.vX
 
             if (this.posX <= 5) {

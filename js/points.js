@@ -36,8 +36,11 @@ class Points {
     }
 
     move(level){
-        if(level === 1 || level === 2){
+        if(level === 1){
             this.posX -= this.vX
+        }
+        if(level === 2){
+            this.posX += 1
         }
 
         
