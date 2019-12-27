@@ -14,7 +14,7 @@ const Game = {
     },
     level: 1,
     score: 0,
-    nextLevel: 2,
+    nextLevel: 1,
 
 
     init: function () {
@@ -42,8 +42,9 @@ const Game = {
             this.moveAll();
             this.clearEnemyMosquito()
             this.clearEnemyGhost()
-            this.clearPoints()
             this.clearEnemyBombLeft()
+            this.clearEnemyYellow()
+            this.clearPoints()
 
 
             if (this.framesCounter > 2000) this.framesCounter = 0;
@@ -65,6 +66,13 @@ const Game = {
                 if (this.framesCounter % 550 === 0) this.generateEnemyBombLeft()
                 if (this.framesCounter % 100 === 0) this.generatePoints()
             }
+            if (this.level === 4) {
+                this.levelTwoSound.pause()
+                this.levelThreeSound.play()
+                if (this.framesCounter % 250 === 0) this.generateEnemyYellow()
+                // if (this.framesCounter % 100 === 0) this.generatePoints()
+            }
+
             if (this.player === this.playerExplosion) this.explosionSound.play()
             if (this.player === this.playerExplosion) setTimeout(function () {
                 this.gameOver()
@@ -75,17 +83,18 @@ const Game = {
             if (this.isCollisionPoints()) this.nextLevel -= 1
             if (this.isCollisionPoints()) this.score += 1
             if (this.nextLevel <= 0) {
-                this.level++;
                 this.congratulationsSound = new Sound('sounds/congratulations.wav')
                 this.congratulationsSound.play()
                 this.nextLevel = 1
+                this.level++;
                 this.changeLevel()
 
-                if (this.level > 3) {
+
+                if (this.level > 4) {
                     clearInterval(this.interval)
                     setTimeout(function () {
                         window.location.href = "./well_done.html"
-                    }, 1000);
+                    }, 1500);
                 }
             }
         }, 1000 / this.fps)
@@ -100,6 +109,7 @@ const Game = {
         this.enemyBombLeft = [];
         this.enemyMosquito = [];
         this.enemyGhost = [];
+        this.enemyYellow = []
 
 
 
@@ -114,7 +124,7 @@ const Game = {
 
         if (this.level == 2) {
             this.background = new Background(this.ctx, "./img/cove-brown.jpg", this.width, this.height, 3);
-            this.player = new Player(this.ctx, './img/playerSpriteLeft.png', innerWidth/2, 300, 70, 70, this.playerKeys, 8, 2)
+            this.player = new Player(this.ctx, './img/playerSpriteLeft.png', innerWidth / 2, 300, 70, 70, this.playerKeys, 8, 2)
 
         }
 
@@ -122,6 +132,12 @@ const Game = {
 
         if (this.level == 3) {
             this.background = new Background(this.ctx, "./img/backgroundNight2.jpg", this.width, this.height, 3);
+            this.backgroundCloud = new Background(this.ctx, "./img/backgroundCloud3.png", this.width, this.height, 4);
+            this.player = new Player(this.ctx, './img/playerSprite.png', this.width / 2, innerHeight - 130, 70, 70, this.playerKeys, 8, 3);
+
+        }
+        if (this.level == 4) {
+            this.background = new Background(this.ctx, "./img/backgroundNight.jpg", this.width, this.height, 3);
             this.backgroundCloud = new Background(this.ctx, "./img/backgroundCloud3.png", this.width, this.height, 4);
             this.player = new Player(this.ctx, './img/playerSprite.png', this.width / 2, innerHeight - 130, 70, 70, this.playerKeys, 8, 3);
 
@@ -166,6 +182,13 @@ const Game = {
             this.player.draw(this.framesCounter);
             this.enemyBombLeft.forEach(enemyM => enemyM.draw(this.framesCounter));
         }
+        if (this.level === 4) {
+            this.background.draw();
+            this.backgroundCloud.draw()
+            // this.points.forEach(point => point.draw(this.framesCounter));
+            this.player.draw(this.framesCounter);
+            this.enemyYellow.forEach(enemyM => enemyM.draw(this.framesCounter));
+        }
 
         ScoreBoard.draw(this.score, this.nextLevel)
     },
@@ -205,6 +228,22 @@ const Game = {
                 this.player.posY = innerHeight - 130
             }
         }
+
+        if (this.level === 4) {
+            this.backgroundCloud.move()
+            // this.points.forEach(point => point.move(this.level));
+            this.enemyYellow.forEach(enemyM => enemyM.move(this.level));
+            this.player.move()
+            this.player.vy = 1
+            this.player.gravity = 0.05
+            if (this.player.posY <= innerHeight - 130) {
+                this.player.posY += this.player.vY;
+                this.player.vY += this.player.gravity;
+            } else {
+                this.player.vY = 1;
+                this.player.posY = innerHeight - 130
+            }
+        }
     },
 
 
@@ -223,6 +262,10 @@ const Game = {
 
     generateEnemyBombLeft: function () {
         this.enemyBombLeft.push(new Enemies(this.ctx, './img/bombLeft.png', window.innerWidth, innerHeight - 130, 70, 70, 5))
+    },
+
+    generateEnemyYellow: function () {
+        this.enemyYellow.push(new Enemies(this.ctx, './img/yellow-monster.png', Math.floor(Math.random(500 - 600) * 900) + 100, 0, 200, 200, 3))
     },
 
 
@@ -294,6 +337,19 @@ const Game = {
                 this.player = this.playerExplosion = new Player(this.ctx, './img/airExplosion.png', this.player.posX, this.player.posY, 70, 70, this.playerKeys, 6)
 
         }
+        if (this.level === 4) {
+            if (this.enemyYellow.some(obs => (this.player.posX + 35 > obs.posX && obs.posX + obs.width > this.player.posX && this.player.posY + this.player.height - 10 > obs.posY && obs.posY + +obs.height - 10 > this.player.posY)))
+                this.player = this.playerExplosion = new Player(this.ctx, './img/airExplosion.png', this.player.posX, this.player.posY, 70, 70, this.playerKeys, 6)
+            if (this.player.posX < 0)
+                this.player = this.playerExplosion = new Player(this.ctx, './img/groundExplotion.png', this.player.posX, this.player.posY, 70, 70, this.playerKeys, 5)
+            if (this.player.posX > this.canvas.width - 67)
+                this.player = this.playerExplosion = new Player(this.ctx, './img/groundExplotion.png', this.player.posX, this.player.posY, 70, 70, this.playerKeys, 5)
+            if (this.player.posY < 0)
+                this.player = this.playerExplosion = new Player(this.ctx, './img/airExplosion.png', this.player.posX, this.player.posY, 70, 70, this.playerKeys, 6)
+            if (this.player.posY > this.canvas.height - 80)
+                this.player = this.playerExplosion = new Player(this.ctx, './img/airExplosion.png', this.player.posX, this.player.posY, 70, 70, this.playerKeys, 6)
+
+        }
 
     },
 
@@ -323,6 +379,19 @@ const Game = {
         }
     },
 
+    clearEnemyBombLeft: function () {
+        if (this.enemyBombLeft.length > 3) {
+            this.enemyBombLeft.pop()
+        }
+
+    },
+
+    clearEnemyYellow: function () {
+        if (this.enemyYellow.length > 1) {
+            this.enemyYellow.pop()
+        }
+
+    },
 
     clearPoints: function () {
         this.points = this.points.filter(point => (point.posX >= -50))
@@ -333,19 +402,13 @@ const Game = {
     },
 
 
-    clearEnemyBombLeft: function () {
-        if (this.enemyBombLeft.length > 3) {
-            this.enemyBombLeft.pop()
-        }
-
-    },
 
     gameOver: function () {
         this.levelThreeSound.pause()
         clearInterval(this.interval)
         setTimeout(function () {
             window.location.href = "./game_over.html"
-        }, 2000);
+        }, 1500);
 
     },
 

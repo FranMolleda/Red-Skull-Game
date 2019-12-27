@@ -53,6 +53,7 @@ class Points {
             
             if (this.posX <= 5) {
                 this.vX *= -1
+                this.image.src = './img/mosquito-azulLeft.png'
             }
 
            if(this.posX >= window.innerWidth){
