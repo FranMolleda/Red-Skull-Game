@@ -36,8 +36,11 @@ class Points {
     }
 
     move(level){
-        if(level === 1 || level === 2){
+        if(level === 1){
             this.posX -= this.vX
+        }
+        if(level === 2){
+            this.posX += 1
         }
 
         
@@ -50,6 +53,7 @@ class Points {
             
             if (this.posX <= 5) {
                 this.vX *= -1
+                this.image.src = './img/mosquito-azulLeft.png'
             }
 
            if(this.posX >= window.innerWidth){
