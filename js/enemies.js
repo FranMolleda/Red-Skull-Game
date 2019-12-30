@@ -88,12 +88,12 @@ class Enemies {
                 this.image.src = './img/yellow-monster.png'
             }
 
-            if (this.posX >= window.innerWidth - 60) {
+            if (this.posX >= window.innerWidth - 200) {
                 this.vX *= -1
-                this.image.src = './img/yellow-monster.png'
+                this.image.src = './img/yellow-monsterLeft.png'
             }
 
-            if (this.posY >= window.innerHeight - 60) {
+            if (this.posY >= window.innerHeight - 360) {
                 this.vY *= -1
             }
 
