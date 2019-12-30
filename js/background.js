@@ -19,6 +19,8 @@ class Background {
     move() {
         this.posX -= this.speed;
         this.posX %= this.canvas.width;
+
+
         //Es igual que esto:
         //if(this.posX <= -this.width) this.posX = 0;
     }
