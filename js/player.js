@@ -23,6 +23,10 @@ class Player {
         this.keys = keys;
         this.level = level
 
+        this.bullets = [];
+        this.canShoot = true;
+
+
         this.setListeners();
 
 
@@ -41,6 +45,9 @@ class Player {
             this.height,
         )
         this.animate(framesCounter)
+
+        this.bullets.forEach(bullet => bullet.draw())
+        //this.clearBullets()
     }
 
     move() {
@@ -51,6 +58,8 @@ class Player {
         if (this.level === 3 && this.posY <= 570) {
             this.vY += 0.2
         }
+
+        this.bullets.forEach(bullet => bullet.move())
 
     }
 
@@ -98,13 +107,49 @@ class Player {
 
             }
 
+            if (this.level === 4) {
+                switch (e.keyCode) {
+                    case this.keys.kSpace:
+                        this.vY -= 3;
+                        break;
+                        case this.keys.kLeft:
+                            this.image.src = './img/playerSpriteLeft.png'
+                            this.vX -= 2;
+                            break;
+                            case this.keys.kRight:
+                                this.image.src = './img/playerSprite.png'
+                                this.vX += 2;
+                                break;
+                                case this.keys.kUp:
+                                    this.shoot();
+                        console.log('flecha tocada')
+                        break;
+                }
+
+            }
+
         })
     }
 
+    shoot() {
+       if(this.canShoot) {
+            this.bullets.push(new Bullet(this.ctx, this.posX, this.posY, this.playerWidth, this.playerHeight))
+           this.canShoot = false;
+           setTimeout(()=>{
+               this.canShoot=true;
+           },1000)
+        }
+       
+    }
     animate(framesCounter) {
         if (framesCounter % 10 === 0) {
             if (this.framesIndex >= this.frames - 1) this.framesIndex = 0;
             this.framesIndex++;
         }
+    }
+
+
+    clearBullets() {
+        this.bullets = this.bullets.filter(bullet => bullet.posX <= this.gameWidth)
     }
 }
