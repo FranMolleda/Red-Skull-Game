@@ -11,11 +11,11 @@ const Game = {
         kLeft: 37,
         kDown: 40,
         kSpace: 32,
-        kShift:16,
+        kShift: 16,
     },
     level: 1,
     score: 0,
-    nextLevel: 1,
+    nextLevel: 3,
 
 
     init: function () {
@@ -47,6 +47,7 @@ const Game = {
             this.clearEnemyYellow()
             this.clearPoints()
             this.clearEnemyBullets()
+            //    this.bulletCollision()
 
 
             if (this.framesCounter > 2000) this.framesCounter = 0;
@@ -72,23 +73,23 @@ const Game = {
                 this.levelTwoSound.pause()
                 this.levelThreeSound.play()
                 if (this.framesCounter % 103 === 0) this.generateEnemyBullets()
+                
 
             }
 
+            if (this.isCollision()) this.player = this.playerExplosion
             if (this.player === this.playerExplosion) this.explosionSound.play()
             if (this.player === this.playerExplosion) setTimeout(function () {
                 this.gameOver()
-            }.bind(this), 1000)
-            if (this.isCollision()) this.player = this.playerExplosion
+            }.bind(this), 1500)
             if (this.isCollision()) this.enemyBombLeft = this.playerExplosion
             if (this.isCollision()) this.enemyMosquito = this.playerExplosion
-            
             if (this.isCollisionPoints()) this.nextLevel -= 1
             if (this.isCollisionPoints()) this.score += 1
             if (this.nextLevel <= 0) {
                 this.congratulationsSound = new Sound('sounds/congratulations.wav')
                 this.congratulationsSound.play()
-                this.nextLevel = 1
+                this.nextLevel = 3
                 this.level++;
                 this.changeLevel()
 
@@ -97,7 +98,7 @@ const Game = {
                     clearInterval(this.interval)
                     setTimeout(function () {
                         window.location.href = "./well_done.html"
-                    }, 1500);
+                    }, 1000);
                 }
             }
         }, 1000 / this.fps)
@@ -188,9 +189,9 @@ const Game = {
         }
         if (this.level === 4) {
             this.background.draw();
+            this.enemyYellow.draw(this.framesCounter);
             this.player.draw(this.framesCounter);
             this.enemyBullet.forEach(bullet => bullet.draw(this.framesCounter));
-            this.enemyYellow.draw(this.framesCounter);
             this.backgroundCloud.draw()
         }
 
@@ -210,7 +211,7 @@ const Game = {
         if (this.level === 2) {
             this.background.posY -= this.background.speed
             this.background.posY %= this.canvas.height;
-            if(this.background.posY >=  this.background.height) this.background.posY = 0
+            if (this.background.posY >= this.background.height) this.background.posY = 0
             this.enemyGhost.forEach(enemyM => enemyM.move(this.level));
             this.points.forEach(point => point.move(this.level));
             this.player.move()
@@ -257,7 +258,7 @@ const Game = {
 
 
     generateEnemyMosquito: function () {
-        this.enemyMosquito.push(new Enemies(this.ctx, './img/bat-MosquitoSprite.png', window.innerWidth +100, Math.floor(Math.random(10 - 600) * 600) + 100, 70, 70, 8))
+        this.enemyMosquito.push(new Enemies(this.ctx, './img/bat-MosquitoSprite.png', window.innerWidth + 100, Math.floor(Math.random(10 - 600) * 600) + 100, 70, 70, 8))
     },
 
 
@@ -270,8 +271,8 @@ const Game = {
         this.enemyBombLeft.push(new Enemies(this.ctx, './img/bombLeft.png', window.innerWidth, innerHeight - 130, 70, 70, 5))
     },
 
-   generateEnemyBullets: function () {
-        this.enemyBullet.push (new EnemyBullet(this.ctx, './img/eye.png', this.enemyYellow.posX + 75, this.enemyYellow.posY + 150, 50, 50))
+    generateEnemyBullets: function () {
+        this.enemyBullet.push(new EnemyBullet(this.ctx, './img/eye.png', this.enemyYellow.posX + 75, this.enemyYellow.posY + 150, 50, 50))
     },
 
 
@@ -347,18 +348,32 @@ const Game = {
                 this.player = this.playerExplosion = new Player(this.ctx, './img/airExplosion.png', this.player.posX, this.player.posY, 70, 70, this.playerKeys, 6)
 
         }
-        if (this.level === 4) {  
-            if (this.player.posX + 35 > this.enemyYellow.posX && this.enemyYellow.posX + this.enemyYellow.width > this.player.posX && this.player.posY + this.player.height - 10 > this.enemyYellow.posY && this.enemyYellow.posY +this.enemyYellow.height - 10 > this.player.posY)
-               this.player = this.playerExplosion = new Player(this.ctx, './img/airExplosion.png', this.player.posX, this.player.posY, 70, 70, this.playerKeys, 6)
+        if (this.level === 4) {
+            if (this.player.posX > this.enemyYellow.posX && this.enemyYellow.posX + this.enemyYellow.width > this.player.posX && this.player.posY + this.player.height - 10 > this.enemyYellow.posY && this.enemyYellow.posY + this.enemyYellow.height - 10 > this.player.posY) {
+                setTimeout(function () {
+                    this.nextLevel -= 1             
+
+                    }, 1500);
+                    this.score ++ 
+                
+                this.pointSound = new Sound('sounds/pointss.wav')
+                this.pointSound.play()
+                //this.enemyYellow = this.playerExplosion = new Player(this.ctx, './img/airExplosion.png', this.player.posX, this.player.posY, 200, 200, this.playerKeys, 6)
+                }
+            
+        
+
+
+            if (this.enemyBullet.some(obs => (this.player.posX + 35 > obs.posX && obs.posX + obs.width > this.player.posX && this.player.posY + this.player.height - 10 > obs.posY && obs.posY + +obs.height - 10 > this.player.posY)))
+                this.player = this.playerExplosion = new Player(this.ctx, './img/airExplosion.png', this.player.posX, this.player.posY, 70, 70, this.playerKeys, 6)
             if (this.player.posX < 0)
-                this.player = this.playerExplosion = new Player(this.ctx, './img/airExplotion.png', this.player.posX, this.player.posY, 70, 70, this.playerKeys, 5)
+                this.player = this.playerExplosion = new Player(this.ctx, './img/airExplosion.png', this.player.posX, this.player.posY, 70, 70, this.playerKeys, 6)
             if (this.player.posX > this.canvas.width - 67)
-                this.player = this.playerExplosion = new Player(this.ctx, './img/airExplotion.png', this.player.posX, this.player.posY, 70, 70, this.playerKeys, 5)
+                this.player = this.playerExplosion = new Player(this.ctx, './img/airExplosion.png', this.player.posX, this.player.posY, 70, 70, this.playerKeys, 6)
             if (this.player.posY < 0)
                 this.player = this.playerExplosion = new Player(this.ctx, './img/airExplosion.png', this.player.posX, this.player.posY, 70, 70, this.playerKeys, 6)
-            if (this.player.posY > this.canvas.height - 80)
+            if (this.player.posY > this.canvas.height - 67)
                 this.player = this.playerExplosion = new Player(this.ctx, './img/airExplosion.png', this.player.posX, this.player.posY, 70, 70, this.playerKeys, 6)
-
         }
 
     },
@@ -376,6 +391,16 @@ const Game = {
             }
         })
     },
+
+
+    // bulletCollision: function(){
+    //     this.player.bullets.forEach((bullet) => {//bucle donde tenemos los disparos de la pantalla
+    //             if(bullet.posX  > this.enemyYellow.posX && this.enemyYellow.posX + this.enemyYellow.width > bullet.posX && bullet.posY + bullet.playerHeight > this.enemyYellow.posY && this.enemyYellow.posY > bullet.posY ) {
+    //                 //this.player.bullets.splice(bIndex,1)
+    //                 console.log('Tocado')
+    //             }
+    //      })  
+    //},
 
 
     clearEnemyMosquito: function () {
@@ -403,7 +428,7 @@ const Game = {
 
     },
     clearEnemyBullets: function () {
-     if(this.enemyBullet.length > 2) {
+        if (this.enemyBullet.length > 2) {
             this.enemyBullet.shift()
         }
 

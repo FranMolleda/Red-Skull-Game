@@ -11,12 +11,11 @@ class Bullet {
   
       this.vx = 0;
       this.vy = 4;
-      //this.gravity = 0.9;
     }
   
     draw() {
 
-      this.ctx.drawImage(this.image, this.posX, this.posY, 30, 30)
+      this.ctx.drawImage(this.image, this.posX, this.posY, 100, 100)
 
     }
   
