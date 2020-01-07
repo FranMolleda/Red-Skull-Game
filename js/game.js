@@ -10,7 +10,8 @@ const Game = {
         kRight: 39,
         kLeft: 37,
         kDown: 40,
-        kSpace: 32
+        kSpace: 32,
+        kShift:16,
     },
     level: 1,
     score: 0,
@@ -126,7 +127,7 @@ const Game = {
 
 
         if (this.level == 2) {
-            this.background = new Background(this.ctx, "./img/cove-brown.jpg", this.width, this.height, 3);
+            this.background = new Background(this.ctx, "./img/cove-brown-vertical.jpg", this.width, this.height, 3);
             this.player = new Player(this.ctx, './img/playerSpriteLeft.png', innerWidth / 2, 300, 70, 70, this.playerKeys, 8, 2)
 
         }
@@ -142,8 +143,8 @@ const Game = {
         if (this.level == 4) {
             this.background = new Background(this.ctx, "./img/backgroundNight.jpg", this.width, this.height, 3);
             this.backgroundCloud = new Background(this.ctx, "./img/backgroundCloud3.png", this.width, this.height, 4);
-            this.player = new Player(this.ctx, './img/playerSprite.png', this.width / 2, innerHeight - 130, 70, 70, this.playerKeys, 8, 3);
-            this.enemyYellow = new Enemies(this.ctx, './img/yellow-monster.png', Math.floor(Math.random(500 - 600) * 900) + 100, 200, 200, 200, 3)
+            this.player = new Player(this.ctx, './img/playerSprite.png', this.width / 2, innerHeight - 130, 70, 70, this.playerKeys, 8, 4);
+            this.enemyYellow = new Enemies(this.ctx, './img/playerSpriteLeftGreen.png', Math.floor(Math.random(500 - 600) * 900) + 100, 200, 200, 200, 3)
         }
     },
 
@@ -207,7 +208,9 @@ const Game = {
         }
 
         if (this.level === 2) {
-            this.background.move();
+            this.background.posY -= this.background.speed
+            this.background.posY %= this.canvas.height;
+            if(this.background.posY >=  this.background.height) this.background.posY = 0
             this.enemyGhost.forEach(enemyM => enemyM.move(this.level));
             this.points.forEach(point => point.move(this.level));
             this.player.move()
@@ -234,9 +237,9 @@ const Game = {
 
         if (this.level === 4) {
             this.backgroundCloud.move()
-            this.enemyYellow.move(this.level);
-            this.enemyBullet.forEach(bullet => bullet.move());
             this.player.move()
+            this.enemyBullet.forEach(bullet => bullet.move());
+            this.enemyYellow.move(this.level);
             this.player.vy = 1
             this.player.gravity = 0.05
             if (this.player.posY <= innerHeight - 130) {
@@ -254,7 +257,7 @@ const Game = {
 
 
     generateEnemyMosquito: function () {
-        this.enemyMosquito.push(new Enemies(this.ctx, './img/bat-MosquitoSprite.png', 1500, Math.floor(Math.random(10 - 600) * 600) + 100, 70, 70, 8))
+        this.enemyMosquito.push(new Enemies(this.ctx, './img/bat-MosquitoSprite.png', window.innerWidth +100, Math.floor(Math.random(10 - 600) * 600) + 100, 70, 70, 8))
     },
 
 
@@ -299,7 +302,7 @@ const Game = {
             if (this.player.posX + this.player.width > obs.posX && obs.posX + obs.width > this.player.posX && this.player.posY + this.player.height > obs.posY && obs.posY > this.player.posY) {
                 this.enemyGhost.splice(vIndex, 1)
                 this.player.gravity *= -1
-
+                this.background.speed *= -1
             }
         })
 

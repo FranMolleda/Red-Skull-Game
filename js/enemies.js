@@ -85,12 +85,12 @@ class Enemies {
 
             if (this.posX <= 5) {
                 this.vX *= -1
-                this.image.src = './img/yellow-monster.png'
+                this.image.src = './img/playerSpriteGreen.png'
             }
 
             if (this.posX >= window.innerWidth - 200) {
                 this.vX *= -1
-                this.image.src = './img/yellow-monsterLeft.png'
+                this.image.src = './img/playerSpriteLeftGreen.png'
             }
 
             if (this.posY >= window.innerHeight - 360) {
