@@ -15,7 +15,7 @@ const Game = {
     },
     level: 1,
     score: 0,
-    nextLevel: 1,
+    nextLevel: 4,
 
 
     init: function () {
@@ -93,7 +93,7 @@ const Game = {
             if (this.nextLevel <= 0) {
                 this.congratulationsSound = new Sound('sounds/congratulations.wav')
                 this.congratulationsSound.play()
-                this.nextLevel = 1
+                this.nextLevel = 4
                 this.level++;
                 this.changeLevel()
 
@@ -151,7 +151,10 @@ const Game = {
             this.background = new Background(this.ctx, "./img/backgroundNight.jpg", this.width, this.height, 3);
             this.backgroundCloud = new Background(this.ctx, "./img/backgroundCloud3.png", this.width, this.height, 4);
             this.player = new Player(this.ctx, './img/playerSprite.png', this.width / 2, innerHeight - 130, 70, 70, this.playerKeys, 8, 4);
-            this.enemyYellow = new Enemies(this.ctx, './img/yellow-monsterLeft.png', Math.floor(Math.random(500 - 600) * 900) + 100, 180, 180, 200, 3)
+            this.enemyYellow = new Enemies(this.ctx, './img/black-ghostLeft.png', Math.floor(Math.random(500 - 600) * 900) + 100, 200, 200, 200, 3)
+            if (this.isCollisionPoints()) this.nextLevel -= 1
+            this.nextLevel = 5
+
         }
     },
 
@@ -196,10 +199,10 @@ const Game = {
 
         if (this.level === 4) {
             this.background.draw();
+            this.enemyBullet.forEach(bullet => bullet.draw(this.framesCounter));
             this.enemyYellow.draw(this.framesCounter);
             this.points.forEach(point => point.draw(this.framesCounter));
             this.player.draw(this.framesCounter);
-            this.enemyBullet.forEach(bullet => bullet.draw(this.framesCounter));
             this.backgroundCloud.draw()
         }
 

@@ -79,18 +79,18 @@ class Enemies {
         }
 
         if (level === 4) {
-
+            this.frames = 7
             this.posX -= this.vX
             this.posY += this.vY
 
             if (this.posX <= 5) {
                 this.vX *= -1
-                this.image.src = './img/yellow-monster.png'
+                this.image.src = './img/black-ghost.png'
             }
 
             if (this.posX >= window.innerWidth - 200) {
                 this.vX *= -1
-                this.image.src = './img/yellow-monsterLeft.png'
+                this.image.src = './img/black-ghostLeft.png'
             }
 
             if (this.posY >= window.innerHeight - 360) {
