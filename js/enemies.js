@@ -67,30 +67,30 @@ class Enemies {
             this.posX -= this.vX
 
             if (this.posX <= 5) {
-                this.vX *= -1
+                this.vX *= -1.1
                 this.image.src='./img/bombRight.png'
             }
 
             if (this.posX >= window.innerWidth) {
-                this.vX *= -1
+                this.vX *= -1.1
                 this.image.src='./img/bombLeft.png'
             }
 
         }
 
         if (level === 4) {
-
+            this.frames = 7
             this.posX -= this.vX
             this.posY += this.vY
 
             if (this.posX <= 5) {
                 this.vX *= -1
-                this.image.src = './img/playerSpriteGreen.png'
+                this.image.src = './img/black-ghost.png'
             }
 
             if (this.posX >= window.innerWidth - 200) {
                 this.vX *= -1
-                this.image.src = './img/playerSpriteLeftGreen.png'
+                this.image.src = './img/black-ghostLeft.png'
             }
 
             if (this.posY >= window.innerHeight - 360) {

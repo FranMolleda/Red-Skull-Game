@@ -13,8 +13,8 @@ class Player {
         this.posXMax = this.width - 67
         this.posYMax = this.height - 67
 
-        this.vX = 0; 
-        this.vY = 0; 
+        this.vX = 0;
+        this.vY = 0;
         this.gravity = 0.1;
 
         this.frames = frames;
@@ -46,8 +46,8 @@ class Player {
         )
         this.animate(framesCounter)
 
+        this.clearBullets()
         this.bullets.forEach(bullet => bullet.draw())
-        //this.clearBullets()
     }
 
     move() {
@@ -55,7 +55,7 @@ class Player {
         this.posX += this.vX
         this.posY += this.vY
 
-        if (this.level === 3 && this.posY <= 570) {
+        if (this.level === 3 && this.posY <= 570 || this.level === 4 && this.posY <= 570) {
             this.vY += 0.2
         }
 
@@ -83,7 +83,6 @@ class Player {
                     case this.keys.kRight:
                         this.image.src = './img/playerSprite.png'
                         this.vX += 2;
-
                         break;
                 }
 
@@ -112,17 +111,16 @@ class Player {
                     case this.keys.kSpace:
                         this.vY -= 3;
                         break;
-                        case this.keys.kLeft:
-                            this.image.src = './img/playerSpriteLeft.png'
-                            this.vX -= 2;
-                            break;
-                            case this.keys.kRight:
-                                this.image.src = './img/playerSprite.png'
-                                this.vX += 2;
-                                break;
-                                case this.keys.kUp:
-                                    this.shoot();
-                        console.log('flecha tocada')
+                    case this.keys.kLeft:
+                        this.image.src = './img/playerSpriteLeft.png'
+                        this.vX -= 2;
+                        break;
+                    case this.keys.kRight:
+                        this.image.src = './img/playerSprite.png'
+                        this.vX += 2;
+                        break;
+                    case this.keys.kUp:
+                        this.vY -= 2
                         break;
                 }
 
@@ -131,16 +129,7 @@ class Player {
         })
     }
 
-    shoot() {
-       if(this.canShoot) {
-            this.bullets.push(new Bullet(this.ctx, this.posX, this.posY, this.playerWidth, this.playerHeight))
-           this.canShoot = false;
-           setTimeout(()=>{
-               this.canShoot=true;
-           },1000)
-        }
-       
-    }
+
     animate(framesCounter) {
         if (framesCounter % 10 === 0) {
             if (this.framesIndex >= this.frames - 1) this.framesIndex = 0;
@@ -150,6 +139,6 @@ class Player {
 
 
     clearBullets() {
-        this.bullets = this.bullets.filter(bullet => bullet.posX <= this.gameWidth)
+        this.bullets = this.bullets.filter(bullet => bullet.posY >= -10)
     }
 }

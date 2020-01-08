@@ -1,11 +1,11 @@
 class Points {
-    constructor(ctx, image, posX, posY, width, height){
+    constructor(ctx, image, posX, posY, width, height) {
         this.ctx = ctx;
         this.image = new Image();
         this.image.src = image,
 
 
-        this.posX = posX;
+            this.posX = posX;
         this.posY = posY
         this.width = width;
         this.height = height;
@@ -15,8 +15,8 @@ class Points {
         this.frames = 8;
         this.framesIndex = 0;
 
-       
-        
+
+
 
     }
 
@@ -35,38 +35,61 @@ class Points {
         this.animate(framesCounter)
     }
 
-    move(level){
-        if(level === 1){
+    move(level) {
+        if (level === 1) {
             this.posX -= this.vX
         }
-        if(level === 2){
+        if (level === 2) {
             this.posX += 1
         }
 
-        
+        if (level === 3) {
 
-
-        if(level === 3){
-            
-            this.posX -= this.vX 
+            this.posX -= this.vX
             this.posY += this.vY
-            
+
             if (this.posX <= 5) {
                 this.vX *= -1
                 this.image.src = './img/mosquito-azulLeft.png'
             }
 
-           if(this.posX >= window.innerWidth){
-              this.vX *= -1
-           }
+            if (this.posX >= window.innerWidth) {
+                this.vX *= -1
+                this.image.src = './img/mosquito-azul.png'
+            }
 
-           if(this.posY >= 750){
-            this.vY *= -1
-         }
+            if (this.posY >= 750) {
+                this.vY *= -1
+            }
 
-         if(this.posY <= 1){
-            this.vY *= -1
-         }
+            if (this.posY <= -1) {
+                this.vY *= -1
+            }
+
+        }
+
+        if (level === 4) {
+
+            this.posX += this.vX
+            this.posY += this.vY
+
+            if (this.posX >= window.innerWidth) {
+                this.vX *= -1.2
+                this.image.src = './img/mosquito-azul.png'
+            }
+            if (this.posX <= 5) {
+                this.vX *= -1
+                this.image.src = './img/mosquito-azulLeft.png'
+            }
+
+
+            if (this.posY >= window.innerHeight - 100) {
+                this.vY *= -1.2
+            }
+
+            if (this.posY <= -1) {
+                this.vY *= -1
+            }
 
         }
     }
