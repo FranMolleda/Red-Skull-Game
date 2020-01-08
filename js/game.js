@@ -15,7 +15,7 @@ const Game = {
     },
     level: 1,
     score: 0,
-    nextLevel: 3,
+    nextLevel: 1,
 
 
     init: function () {
@@ -34,6 +34,9 @@ const Game = {
         this.levelOneSound = new Sound('sounds/level-one.wav')
         this.levelTwoSound = new Sound('sounds/level-two.mp3')
         this.levelThreeSound = new Sound('sounds/level-three.mp3')
+        this.levelTwobisSound = new Sound('sounds/level-twobis.wav')
+        this.wellDone = new Sound('sounds/well-done.wav')
+
         this.reset()
         this.interval = setInterval(() => {
             this.framesCounter++;
@@ -47,33 +50,33 @@ const Game = {
             this.clearEnemyYellow()
             this.clearPoints()
             this.clearEnemyBullets()
-            //    this.bulletCollision()
 
 
             if (this.framesCounter > 2000) this.framesCounter = 0;
             if (this.level === 1) {
-                this.levelOneSound.play()
-                if (this.framesCounter % 100 === 0) this.generateEnemyMosquito()
-                if (this.framesCounter % 50 === 0) this.generatePoints()
+                this.levelTwobisSound.play()
+                if (this.framesCounter % 75 === 0) this.generateEnemyMosquito()
+                if (this.framesCounter % 100 === 0) this.generatePoints()
             }
 
             if (this.level === 2) {
-                this.levelOneSound.pause()
-                this.levelTwoSound.play()
+                this.levelTwobisSound.pause()
+                this.levelOneSound.play()
                 if (this.framesCounter % 550 === 0) this.generateEnemyGhost()
                 if (this.framesCounter % 150 === 0) this.generatePoints()
             }
             if (this.level === 3) {
-                this.levelTwoSound.pause()
+                this.levelOneSound.pause()
                 this.levelThreeSound.play()
                 if (this.framesCounter % 550 === 0) this.generateEnemyBombLeft()
-                if (this.framesCounter % 100 === 0) this.generatePoints()
+                if (this.framesCounter % 150 === 0) this.generatePoints()
+
             }
             if (this.level === 4) {
-                this.levelTwoSound.pause()
-                this.levelThreeSound.play()
+                this.levelThreeSound.pause()
+                this.levelTwoSound.play()
                 if (this.framesCounter % 103 === 0) this.generateEnemyBullets()
-                
+                if (this.framesCounter % 250 === 0) this.generatePoints()
 
             }
 
@@ -84,21 +87,27 @@ const Game = {
             }.bind(this), 1500)
             if (this.isCollision()) this.enemyBombLeft = this.playerExplosion
             if (this.isCollision()) this.enemyMosquito = this.playerExplosion
+            if (this.isCollision()) this.enemyYellow = this.playerExplosion
             if (this.isCollisionPoints()) this.nextLevel -= 1
             if (this.isCollisionPoints()) this.score += 1
             if (this.nextLevel <= 0) {
                 this.congratulationsSound = new Sound('sounds/congratulations.wav')
                 this.congratulationsSound.play()
-                this.nextLevel = 3
+                this.nextLevel = 1
                 this.level++;
                 this.changeLevel()
 
 
+
                 if (this.level > 4) {
+                    this.congratulationsSound.pause()
+
+                    this.levelTwoSound.pause()
+                    this.wellDone.play()
                     clearInterval(this.interval)
                     setTimeout(function () {
                         window.location.href = "./well_done.html"
-                    }, 1000);
+                    }, 1500);
                 }
             }
         }, 1000 / this.fps)
@@ -125,15 +134,11 @@ const Game = {
         }
 
 
-
-
         if (this.level == 2) {
-            this.background = new Background(this.ctx, "./img/cove-brown-vertical.jpg", this.width, this.height, 3);
+            this.background = new Background(this.ctx, "./img/brown-cave.jpg", this.width, this.height, 3);
             this.player = new Player(this.ctx, './img/playerSpriteLeft.png', innerWidth / 2, 300, 70, 70, this.playerKeys, 8, 2)
 
         }
-
-
 
         if (this.level == 3) {
             this.background = new Background(this.ctx, "./img/backgroundNight2.jpg", this.width, this.height, 3);
@@ -141,11 +146,12 @@ const Game = {
             this.player = new Player(this.ctx, './img/playerSprite.png', this.width / 2, innerHeight - 130, 70, 70, this.playerKeys, 8, 3);
 
         }
+
         if (this.level == 4) {
             this.background = new Background(this.ctx, "./img/backgroundNight.jpg", this.width, this.height, 3);
             this.backgroundCloud = new Background(this.ctx, "./img/backgroundCloud3.png", this.width, this.height, 4);
             this.player = new Player(this.ctx, './img/playerSprite.png', this.width / 2, innerHeight - 130, 70, 70, this.playerKeys, 8, 4);
-            this.enemyYellow = new Enemies(this.ctx, './img/playerSpriteLeftGreen.png', Math.floor(Math.random(500 - 600) * 900) + 100, 200, 200, 200, 3)
+            this.enemyYellow = new Enemies(this.ctx, './img/yellow-monsterLeft.png', Math.floor(Math.random(500 - 600) * 900) + 100, 180, 180, 200, 3)
         }
     },
 
@@ -187,9 +193,11 @@ const Game = {
             this.player.draw(this.framesCounter);
             this.enemyBombLeft.forEach(enemyM => enemyM.draw(this.framesCounter));
         }
+
         if (this.level === 4) {
             this.background.draw();
             this.enemyYellow.draw(this.framesCounter);
+            this.points.forEach(point => point.draw(this.framesCounter));
             this.player.draw(this.framesCounter);
             this.enemyBullet.forEach(bullet => bullet.draw(this.framesCounter));
             this.backgroundCloud.draw()
@@ -241,6 +249,7 @@ const Game = {
             this.player.move()
             this.enemyBullet.forEach(bullet => bullet.move());
             this.enemyYellow.move(this.level);
+            this.points.forEach(point => point.move(this.level));
             this.player.vy = 1
             this.player.gravity = 0.05
             if (this.player.posY <= innerHeight - 130) {
@@ -290,14 +299,15 @@ const Game = {
         if (this.level === 3) {
             this.points.push(new Points(this.ctx, './img/mosquito-azul.png', Math.floor(Math.random(10 - 700) * 600) + 700, 0, 40, 25))
         }
+        if (this.level === 4) {
+            this.points.push(new Points(this.ctx, './img/mosquito-azulLeft.png', Math.floor(Math.random(10 - 700) * 600) + 700, 0, 40, 25))
+        }
     },
 
 
 
 
     isCollision: function () {
-        // colisiones genéricas 
-        //return (p.x + p.w > o.x && o.x + o.w > p.x && p.y + p.h > o.y && o.y + o.h > p.y)
 
         this.enemyGhost.forEach((obs, vIndex) => {
             if (this.player.posX + this.player.width > obs.posX && obs.posX + obs.width > this.player.posX && this.player.posY + this.player.height > obs.posY && obs.posY > this.player.posY) {
@@ -349,21 +359,8 @@ const Game = {
 
         }
         if (this.level === 4) {
-            if (this.player.posX > this.enemyYellow.posX && this.enemyYellow.posX + this.enemyYellow.width > this.player.posX && this.player.posY + this.player.height - 10 > this.enemyYellow.posY && this.enemyYellow.posY + this.enemyYellow.height - 10 > this.player.posY) {
-                setTimeout(function () {
-                    this.nextLevel -= 1             
-
-                    }, 1500);
-                    this.score ++ 
-                
-                this.pointSound = new Sound('sounds/pointss.wav')
-                this.pointSound.play()
-                //this.enemyYellow = this.playerExplosion = new Player(this.ctx, './img/airExplosion.png', this.player.posX, this.player.posY, 200, 200, this.playerKeys, 6)
-                }
-            
-        
-
-
+            if (this.player.posX > this.enemyYellow.posX && this.enemyYellow.posX + this.enemyYellow.width > this.player.posX && this.player.posY + this.player.height - 10 > this.enemyYellow.posY && this.enemyYellow.posY + this.enemyYellow.height - 10 > this.player.posY)
+                this.player = this.playerExplosion = new Player(this.ctx, './img/airExplosion.png', this.player.posX, this.player.posY, 70, 70, this.playerKeys, 6)
             if (this.enemyBullet.some(obs => (this.player.posX + 35 > obs.posX && obs.posX + obs.width > this.player.posX && this.player.posY + this.player.height - 10 > obs.posY && obs.posY + +obs.height - 10 > this.player.posY)))
                 this.player = this.playerExplosion = new Player(this.ctx, './img/airExplosion.png', this.player.posX, this.player.posY, 70, 70, this.playerKeys, 6)
             if (this.player.posX < 0)
@@ -393,15 +390,6 @@ const Game = {
     },
 
 
-    // bulletCollision: function(){
-    //     this.player.bullets.forEach((bullet) => {//bucle donde tenemos los disparos de la pantalla
-    //             if(bullet.posX  > this.enemyYellow.posX && this.enemyYellow.posX + this.enemyYellow.width > bullet.posX && bullet.posY + bullet.playerHeight > this.enemyYellow.posY && this.enemyYellow.posY > bullet.posY ) {
-    //                 //this.player.bullets.splice(bIndex,1)
-    //                 console.log('Tocado')
-    //             }
-    //      })  
-    //},
-
 
     clearEnemyMosquito: function () {
         this.enemyMosquito = this.enemyMosquito.filter(enemyM => (enemyM.posX >= -100))
@@ -427,19 +415,22 @@ const Game = {
         }
 
     },
+
     clearEnemyBullets: function () {
         if (this.enemyBullet.length > 2) {
             this.enemyBullet.shift()
         }
 
-
-
     },
 
     clearPoints: function () {
         this.points = this.points.filter(point => (point.posX >= -50))
-        if (this.level === 3 && this.points.length > 5) {
+        this.points = this.points.filter(point => (point.posX <= window.innerWidth + 450))
+        if (this.level === 3 && this.points.length > 4) {
             this.points.shift()
+        }
+        if (this.level === 4 && this.points.length > 2) {
+            this.points.pop()
         }
 
     },

@@ -55,7 +55,7 @@ class Player {
         this.posX += this.vX
         this.posY += this.vY
 
-        if (this.level === 3 && this.posY <= 570) {
+        if (this.level === 3 && this.posY <= 570 || this.level === 4 && this.posY <= 570) {
             this.vY += 0.2
         }
 
@@ -120,7 +120,7 @@ class Player {
                         this.vX += 2;
                         break;
                     case this.keys.kUp:
-                        this.shoot();
+                        this.vY -= 2
                         break;
                 }
 
@@ -130,16 +130,6 @@ class Player {
     }
 
 
-    shoot() {
-        if (this.canShoot) {
-            this.bullets.push(new Bullet(this.ctx, this.posX, this.posY, this.playerWidth, this.playerHeight))
-            this.canShoot = false;
-            setTimeout(() => {
-                this.canShoot = true;
-            }, 500)
-        }
-
-    }
     animate(framesCounter) {
         if (framesCounter % 10 === 0) {
             if (this.framesIndex >= this.frames - 1) this.framesIndex = 0;
@@ -148,7 +138,7 @@ class Player {
     }
 
 
-     clearBullets() {
-         this.bullets = this.bullets.filter(bullet => bullet.posY >= -10)
-        }
+    clearBullets() {
+        this.bullets = this.bullets.filter(bullet => bullet.posY >= -10)
+    }
 }
