@@ -1,6 +1,7 @@
 # Red Skull Game
 
 https://FranMolleda.github.io/Red-Skull-Game/ 👹🕹
+https://red-skull-game-fran-molleda.netlify.app 👹🕹
 
 ![Init Img](img/readmeInit.png?raw=true)
 
